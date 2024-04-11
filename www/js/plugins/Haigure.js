@@ -1,6 +1,6 @@
 /*:
  * @author 1d51
- * @version 1.0.0
+ * @version 1.0.1
  * @plugindesc HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥
  */
 
@@ -11,9 +11,18 @@ var Haigure = Haigure || {};
 Haigure.Holders = Haigure.Holders || {};
 
 (async function ($) {
+    $.Holders.drawText = Window_Base.prototype.drawText;
+    Window_Base.prototype.drawText = function(text, x, y, maxWidth, align) {
+        if ($gameParty.members().every(a => a.isStateAffected(77) || a.isStateAffected(148))) {
+            return $.Holders.drawText.call(this, "Haigure", x, y, maxWidth, align);
+        } else {
+            return $.Holders.drawText.call(this, text, x, y, maxWidth, align);
+        }
+    };
+
     $.Holders.drawActorName = Window_Base.prototype.drawActorName;
     Window_Base.prototype.drawActorName = function(actor, x, y, width) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             width = width || 168;
             this.changeTextColor(this.hpColor(actor));
             this.drawText("Haigure", x, y, width);
@@ -24,7 +33,7 @@ Haigure.Holders = Haigure.Holders || {};
 
     $.Holders.drawActorClass = Window_Base.prototype.drawActorClass;
     Window_Base.prototype.drawActorClass = function(actor, x, y, width) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             width = width || 168;
             this.resetTextColor();
             this.drawText("Haigure", x, y, width);
@@ -35,7 +44,7 @@ Haigure.Holders = Haigure.Holders || {};
 
     $.Holders.drawActorNickname = Window_Base.prototype.drawActorNickname;
     Window_Base.prototype.drawActorNickname = function(actor, x, y, width) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             width = width || 270;
             this.resetTextColor();
             this.drawText("Haigure", x, y, width);
@@ -46,7 +55,7 @@ Haigure.Holders = Haigure.Holders || {};
 
     $.Holders.drawActorLevel = Window_Base.prototype.drawActorLevel;
     Window_Base.prototype.drawActorLevel = function(actor, x, y) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             this.changeTextColor(this.systemColor());
             this.drawText("Haigure", x, y, 48);
             this.resetTextColor();
@@ -58,7 +67,7 @@ Haigure.Holders = Haigure.Holders || {};
 
     $.Holders.drawActorHp = Window_Base.prototype.drawActorHp;
     Window_Base.prototype.drawActorHp = function(actor, x, y, width) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             width = width || 186;
             var color1 = this.hpGaugeColor1();
             var color2 = this.hpGaugeColor2();
@@ -77,7 +86,7 @@ Haigure.Holders = Haigure.Holders || {};
 
     $.Holders.drawActorMp = Window_Base.prototype.drawActorMp;
     Window_Base.prototype.drawActorMp = function(actor, x, y, width) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             width = width || 186;
             var color1 = this.mpGaugeColor1();
             var color2 = this.mpGaugeColor2();
@@ -96,7 +105,7 @@ Haigure.Holders = Haigure.Holders || {};
 
     $.Holders.drawActorTp = Window_Base.prototype.drawActorTp;
     Window_Base.prototype.drawActorTp = function(actor, x, y, width) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             width = width || 96;
             var color1 = this.tpGaugeColor1();
             var color2 = this.tpGaugeColor2();
@@ -112,7 +121,7 @@ Haigure.Holders = Haigure.Holders || {};
 
     $.Holders.drawActorJp = Window_Base.prototype.drawActorJp;
     Window_Base.prototype.drawActorJp = function(actor, id, wx, wy, ww, align) {
-        if (actor.isStateAffected(148)) {
+        if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
             var icon = '\\i[' + Yanfly.Icon.Jp + ']';
             var fmt = Yanfly.Param.JpMenuFormat;
             var text = fmt.format("Haigure", Yanfly.Param.Jp, icon);
