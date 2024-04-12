@@ -1,6 +1,6 @@
 /*:
  * @author 1d51
- * @version 1.0.1
+ * @version 1.0.2
  * @plugindesc HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥
  */
 
@@ -13,10 +13,33 @@ Haigure.Holders = Haigure.Holders || {};
 (async function ($) {
     $.Holders.drawText = Window_Base.prototype.drawText;
     Window_Base.prototype.drawText = function(text, x, y, maxWidth, align) {
-        if ($gameParty.members().every(a => a.isStateAffected(77) || a.isStateAffected(148))) {
+        if ($gameParty.aliveMembers().every(a => a.isStateAffected(77) || a.isStateAffected(148))) {
             return $.Holders.drawText.call(this, "Haigure", x, y, maxWidth, align);
         } else {
             return $.Holders.drawText.call(this, text, x, y, maxWidth, align);
+        }
+    };
+
+    $.Holders.drawTextEx = Window_Base.prototype.drawTextEx;
+    Window_Base.prototype.drawTextEx = function(text, x, y) {
+        const open = SceneManager._scene instanceof Scene_Item ||
+            SceneManager._scene instanceof Scene_Skill ||
+            SceneManager._scene instanceof Scene_LearnSkill ||
+            SceneManager._scene instanceof Scene_Equip ||
+            SceneManager._scene instanceof Scene_Status;
+        if (open && $gameParty.aliveMembers().every(a => a.isStateAffected(77) || a.isStateAffected(148))) {
+            return $.Holders.drawTextEx.call(this, "HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥", x, y);
+        } else {
+            return $.Holders.drawTextEx.call(this, text, x, y);
+        }
+    };
+
+    $.Holders.drawIcon = Window_Base.prototype.drawIcon;
+    Window_Base.prototype.drawIcon = function(iconIndex, x, y) {
+        if ($gameParty.aliveMembers().every(a => a.isStateAffected(77) || a.isStateAffected(148))) {
+            return $.Holders.drawIcon.call(this, 13, x, y);
+        } else {
+            return $.Holders.drawIcon.call(this, iconIndex, x, y);
         }
     };
 
@@ -122,17 +145,14 @@ Haigure.Holders = Haigure.Holders || {};
     $.Holders.drawActorJp = Window_Base.prototype.drawActorJp;
     Window_Base.prototype.drawActorJp = function(actor, id, wx, wy, ww, align) {
         if (actor.isStateAffected(77) || actor.isStateAffected(148)) {
-            var icon = '\\i[' + Yanfly.Icon.Jp + ']';
-            var fmt = Yanfly.Param.JpMenuFormat;
-            var text = fmt.format("Haigure", Yanfly.Param.Jp, icon);
             if (align === 'left') {
                 wx = 0;
             } else if (align === 'center') {
-                wx += (ww - this.textWidthEx(text)) / 2;
+                wx += (ww - this.textWidthEx("Haigure")) / 2;
             } else {
-                wx += ww - this.textWidthEx(text);
+                wx += ww - this.textWidthEx("Haigure");
             }
-            this.drawTextEx(text, wx, wy);
+            this.drawTextEx("Haigure", wx, wy);
         } else {
             $.Holders.drawActorJp.call(this, actor, id, wx, wy, ww, align);
         }
