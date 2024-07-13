@@ -9,4 +9,4 @@ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! ♥ HAIGURE~! 
 
 Game Creator: [Vhiel](https://twitter.com/shvhiel)
 
-Mod Author: 1d51#0323
+Mod Author: 1d51
